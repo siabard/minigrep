@@ -2,14 +2,19 @@ use std::env;
 use std::fs::File;
 use std::io::prelude::*;
 
+fn parse_config(args: &[String]) -> (&str, &str) {
+
+    let query = &args[1];
+    let filename = &args[2];
+    (query, filename)
+}
 
 fn main() {
 
     // Accept command line arguments
     let args:Vec<String> = env::args().collect();
 
-    let query = &args[1];
-    let filename = &args[2];
+    let (query, filename) = parse_config(&args);
 
     println!("Query : {}", query);
     println!("FileName: {}", filename);
