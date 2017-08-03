@@ -2,6 +2,7 @@ use std::env;
 use std::fs::File;
 use std::io::prelude::*;
 use std::process;
+use std::error::Error;
 
 struct Config {
     query: String,
@@ -37,14 +38,15 @@ fn main() {
     run(config);
 }
 
-fn run(config: Config) {
+fn run(config: Config) -> Result<(), Box<Error>>{
 
     // Reading file
-    let mut f = File::open(config.filename).expect("File cannot open");
+    let mut f = File::open(config.filename)?;
 
     let mut contents = String::new();
-    f.read_to_string(&mut contents).expect("Something wrong with reading file");
+    f.read_to_string(&mut contents)?;
 
     println!("With text:\n{}", contents);
-    //println!("{:?}", args);
+   
+    Ok(())
 }
