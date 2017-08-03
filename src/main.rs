@@ -2,11 +2,15 @@ use std::env;
 use std::fs::File;
 use std::io::prelude::*;
 
-fn parse_config(args: &[String]) -> (&str, &str) {
+struct Config {
+    query: String,
+    filename: String,
+}
+fn parse_config(args: &[String]) -> Config {
 
-    let query = &args[1];
-    let filename = &args[2];
-    (query, filename)
+    let query = args[1].clone();
+    let filename = args[2].clone();
+    Config{query, filename}
 }
 
 fn main() {
@@ -14,13 +18,13 @@ fn main() {
     // Accept command line arguments
     let args:Vec<String> = env::args().collect();
 
-    let (query, filename) = parse_config(&args);
+    let config:Config = parse_config(&args);
 
-    println!("Query : {}", query);
-    println!("FileName: {}", filename);
+    println!("Query : {}", config.query);
+    println!("FileName: {}", config.filename);
 
     // Reading file
-    let mut f = File::open(filename).expect("File cannot open");
+    let mut f = File::open(config.filename).expect("File cannot open");
 
     let mut contents = String::new();
     f.read_to_string(&mut contents)
