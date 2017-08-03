@@ -35,7 +35,16 @@ fn main() {
     println!("Query : {}", config.query);
     println!("FileName: {}", config.filename);
 
-    run(config);
+    // if let Err(e) = run(config) {
+    //     println!("Application error: {}", e);
+
+    //     process::exit(1);
+    // }
+
+    run(config).unwrap_or_else(|e| {
+        println!("Application error: {}", e);
+        process::exit(1);
+    });
 }
 
 fn run(config: Config) -> Result<(), Box<Error>>{
